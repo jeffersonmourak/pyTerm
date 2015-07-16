@@ -6,5 +6,6 @@ PyTerm is a terminal client for linux, that show a hightlight on the availables 
 
 ### Credits ###
 
-Jefferson Moura [(jeffersonmourak)](https://github.com/jeffersonmourak)
+Jefferson Moura [(jeffersonmourak)](https://github.com/jeffersonmourak).
+
 Jonhnatha Trigueiro [(joepreludian)](https://github.com/joepreludian).
