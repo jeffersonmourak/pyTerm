@@ -8,11 +8,16 @@ class CommandInspector(object):
 	def __init__(self):
 		self.available = self.load()
 
-	def callPlugin(self,command):
+	def callPlugin(self,command,config):
+		sequence = command.split()[1::]
+		command = command.split()[0]
+		
 		for plugin in self.plugins:
-			if plugin["command"] == command.split()[0]:
+			if plugin["command"] == command:
 				command = plugin["callback"]
-				command()
+				
+				command(pyTerm=config,sequence=sequence)
+				
 				return True
 
 		return False
@@ -50,6 +55,8 @@ class CommandInspector(object):
 		command = subprocess.Popen(['bash',currentDir + '/listCommands.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		commands, err = command.communicate()
 
+		commands = commands.replace("ls","")
+
 		commands += " PyTerm"
 
 		commands += self.importPlugins()
@@ -63,13 +70,13 @@ class CommandInspector(object):
 
 		return False
 
-	def run(self,commandString):
+	def run(self,commandString,config):
 		commandLine = commandString.split()
 		
 		if commandString == "{{BREAKAPPLICATION}}":
 			return False
 
-		if not commandString == "{{BREAKAPPLICATION}}" and len(commandLine) > 0:
+		if not commandString == "{{BREAKAPPLICATION}}" and len(commandLine) > 0 and not commandLine[0] == "ls":
 			
 			try:
 
@@ -78,9 +85,12 @@ class CommandInspector(object):
 				output = test.communicate()[0]
 				print output
 			except OSError as e:
-				if not self.callPlugin(commandString):
+				if not self.callPlugin(commandString,config):
 					print e,
-			
+		
+		if commandLine[0] == "ls":
+			self.callPlugin(commandString,config)
+
 		print ""
 
 		return True

@@ -1,4 +1,4 @@
-import getpass
+
 import socket
 import os
 
@@ -16,13 +16,14 @@ class bcolors:
 
 class PyTermUI(object):
 	"""docstring for PyTermUI"""
-	def __init__(self):
-		pass
+	def __init__(self,config):
+		self.config = config
 		
 	def preText(self):
-		userName = getpass.getuser()
+		userName = self.config.getUser()
 		computerName = socket.gethostname()
-		currentDir = os.path.dirname(os.path.abspath(__file__))
+		currentDir = self.config.getPath()
+
 		return "\r(PyTerm)" + userName +"@" + computerName +":" + currentDir.replace("/home/" + userName, "~") + "$"
 
 	def check(self,commandList):
@@ -42,4 +43,3 @@ class PyTermUI(object):
 			isFirst = False
 
 
-pyTermUI = PyTermUI()
