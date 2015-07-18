@@ -26,17 +26,13 @@ To run the commands, you just run this command.
 
 A plugin is a python file inside of "plugin/" directory, this file must have a class with the name of file,
 
-example: if the file is 
+example: if the file is plugin.py must have a class 
 
-```plugin.py```
-
-must have a class 
-
-```class plugin(Object):```
+``` class plugin(Object): ```
 
 inside this class must have a method called 
 
-```__pytermconfig__```
+``` __pytermconfig__ ```
 
 without arguments, this method must return a dictionary, with those indexes, 
 
