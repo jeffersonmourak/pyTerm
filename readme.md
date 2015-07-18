@@ -20,7 +20,30 @@ So, how this project is just beginning, you just can run the terminal commands a
 
 To run the commands, you just run this command.
 
-``` python terminal.py ``` 
+``` python terminal.py ```
+
+#plugins
+
+A plugin is a python file inside of "plugin/" directory, this file must have a class with the name of file,
+
+example: if the file is 
+
+```plugin.py```
+
+must have a class 
+
+```class plugin(Object):```
+
+inside this class must have a method called 
+
+```__pytermconfig__```
+
+without arguments, this method must return a dictionary, with those indexes, 
+
+* "command": Command is the command that will be called on terminal
+* "callback": this is a function file, that will be called when the command is called
+
+The callback function must have ``` *args, **kwargs ``` as argument too, to enable get the configurations of terminal
 
 ### Credits ###
 
