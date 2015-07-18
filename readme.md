@@ -36,8 +36,8 @@ inside this class must have a method called
 
 without arguments, this method must return a dictionary, with those indexes, 
 
-* "command": Command is the command that will be called on terminal
-* "callback": this is a function file, that will be called when the command is called
+- "command": Command is the command that will be called on terminal
+- "callback": this is a function file, that will be called when the command is called
 
 The callback function must have ``` *args, **kwargs ``` as argument too, to enable get the configurations of terminal
 
