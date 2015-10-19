@@ -2,25 +2,28 @@
 
 ## What's PyTerm ##
 
-PyTerm is a terminal client for linux, that show a hightlight on the availables commands of your computer
+PyTerm is a terminal client for linux, that show highlights on the availables commands of your computer
 
-#Instalation
+#Installation
 
-To install, you just need run on terminal.
+To install, you just need run this on terminal.
 
-``` git clone https://github.com/jeffersonmourak/pyTerm.git ```
+```Shell
+$ git clone https://github.com/jeffersonmourak/pyTerm.git
+$ cd pyTerm/
+```
 
-``` cd pyTerm/ ```
-
-and done, just go to Usage topic to see how to use this :)
+and done, just go to the Usage topic to see how to use this :)
 
 #Usage
 
 So, how this project is just beginning, you just can run the terminal commands and those aliases.
 
-To run the commands, you just run this command.
+To run the commands, you just need to run this command.
 
-``` python terminal.py ```
+```Shell
+$ python terminal.py
+```
 
 #plugins
 
@@ -28,20 +31,22 @@ A plugin is a python file inside of "plugin/" directory, this file must have a c
 
 example: if the file is plugin.py must have a class 
 
-``` class plugin(Object): ```
+```Python
+class plugin(Object:)
+```
 
 inside this class must have a method called 
 
-``` __pytermconfig__ ```
+` __pytermconfig__`
 
 without arguments, this method must return a dictionary, with those indexes, 
 
 * "command": Command is the command that will be called on terminal
 * "callback": this is a function file, that will be called when the command is called
 
-The callback function must have ``` *args, **kwargs ``` as argument too, to enable get the configurations of terminal
+The callback function must have ` *args, **kwargs ` as argument too, to enable get the configurations of terminal
 
-### Credits ###
+### Credits
 
 Jefferson Moura [(jeffersonmourak)](https://github.com/jeffersonmourak).
 
