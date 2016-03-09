@@ -2,6 +2,7 @@ import subprocess
 import os
 import importlib
 from time import sleep
+from sys import platform as _platform
 
 class CommandInspector(object):
 
@@ -48,8 +49,7 @@ class CommandInspector(object):
 		self.plugins = pluginData
 		return pluginCommands
 
-	def load(self):
-
+	def load_linux_command(self):
 		currentDir = os.path.dirname(os.path.abspath(__file__))
 
 		command = subprocess.Popen(['bash',currentDir + '/listCommands.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -62,6 +62,15 @@ class CommandInspector(object):
 		commands += self.importPlugins()
 
 		return commands.split()
+
+	def load(self):
+		if _platform == "linux" or _platform == "linux2":
+		   return self.load_linux_command()
+		elif _platform == "darwin":
+			print "Sorry, your system is not supported yet!"
+			exit()
+
+		
 
 	def find(self,query):
 		for command in self.available:
