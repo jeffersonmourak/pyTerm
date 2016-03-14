@@ -2,24 +2,24 @@
 
 ## What's PyTerm ##
 
-PyTerm is a terminal client for linux, that show highlights on the availables commands of your computer
+PyTerm is a Python-based terminal client for Linux that highlights the available commands of your computer.
 
 #Installation
 
-To install, you just need run this on terminal.
+To install, all you need to do is, run the following commands in your terminal:
 
 ```Shell
 $ git clone https://github.com/jeffersonmourak/pyTerm.git
 $ cd pyTerm/
 ```
 
-and done, just go to the Usage topic to see how to use this :)
+and that's it, now, just go to the Usage topic to see how to use this. :)
 
 #Usage
 
-So, how this project is just beginning, you just can run the terminal commands and those aliases.
+So, this project is just beginning, you can run the basic terminal commands and those aliases.
 
-To run the commands, you just need to run this command.
+To use PyTerm, you need to run the following in your terminal.
 
 ```Shell
 $ python terminal.py
@@ -27,24 +27,22 @@ $ python terminal.py
 
 #plugins
 
-A plugin is a python file inside of "plugin/" directory, this file must have a class with the name of file,
+A plugin is a Python file, placed inside `plugin/` directory, this file must have a class with the name of the file,
 
-example: if the file is plugin.py must have a class 
+Example: If the file is `plugin.py`, it must have a class `plugin` defined as follows:
 
 ```Python
-class plugin(Object:)
+class plugin(object):
 ```
 
-inside this class must have a method called 
+and this class must have a method called ` __pytermconfig__`.
 
-` __pytermconfig__`
+Without arguments, this method must return a dictionary, with those indexes, 
 
-without arguments, this method must return a dictionary, with those indexes, 
+* "command": Command is the command that will be run in the terminal
+* "callback": this is a function file, that will be called when the command is executed
 
-* "command": Command is the command that will be called on terminal
-* "callback": this is a function file, that will be called when the command is called
-
-The callback function must have ` *args, **kwargs ` as argument too, to enable get the configurations of terminal
+The callback function must have ` *args, **kwargs ` as argument too, to enable get the configurations of the terminal.
 
 ### Credits
 
