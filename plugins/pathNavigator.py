@@ -22,7 +22,7 @@ class pathNavigator(object):
 				currentPath = "/".join(currentPath)
 				pyTerm.setPath(currentPath)
 
-		elif sequence == "":
+		elif sequence == "" or sequence == "~":
 			pyTerm.setPath("/home/"+pyTerm.getUser())
 
 		else:
