@@ -1,3 +1,5 @@
+import os
+
 class pathNavigator(object):
 
 	def __pytermconfig__(self):
@@ -9,6 +11,7 @@ class pathNavigator(object):
 			sequence = kwargs["sequence"][0]
 		except IndexError:
 			sequence = ""
+
 		if sequence == "..":
 			currentPath = pyTerm.getPath().split("/")[::-1]
 			currentPath = currentPath[1::]
@@ -21,3 +24,10 @@ class pathNavigator(object):
 
 		elif sequence == "":
 			pyTerm.setPath("/home/"+pyTerm.getUser())
+
+		else:
+			newPath = os.path.join(pyTerm.getPath(), sequence)
+			if os.path.isdir(newPath):
+				pyTerm.setPath(newPath)
+			else:
+				print 'Invalid Directory!'
