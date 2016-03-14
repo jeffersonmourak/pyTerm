@@ -12,9 +12,12 @@ class pathNavigator(object):
 		if sequence == "..":
 			currentPath = pyTerm.getPath().split("/")[::-1]
 			currentPath = currentPath[1::]
-			currentPath = currentPath[::-1]
-			currentPath = "/".join(currentPath)
-			pyTerm.setPath(currentPath)
+			if currentPath[0] == '':
+				pyTerm.setPath('/')
+			else:
+				currentPath = currentPath[::-1]
+				currentPath = "/".join(currentPath)
+				pyTerm.setPath(currentPath)
 
 		elif sequence == "":
 			pyTerm.setPath("/home/"+pyTerm.getUser())
