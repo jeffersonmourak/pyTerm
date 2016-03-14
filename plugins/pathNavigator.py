@@ -12,22 +12,24 @@ class pathNavigator(object):
 		except IndexError:
 			sequence = ""
 
-		if sequence == "..":
-			currentPath = pyTerm.getPath().split("/")[::-1]
-			currentPath = currentPath[1::]
+		if sequence == "..": # upward
+			currentPath = pyTerm.getPath().split("/")[::-1][1::]
 			if currentPath[0] == '':
 				pyTerm.setPath('/')
+				os.chdir(pyTerm.currentPath)
 			else:
-				currentPath = currentPath[::-1]
-				currentPath = "/".join(currentPath)
+				currentPath = "/".join(currentPath[::-1])
 				pyTerm.setPath(currentPath)
+				os.chdir(pyTerm.currentPath)
 
 		elif sequence == "" or sequence == "~":
 			pyTerm.setPath("/home/"+pyTerm.getUser())
+			os.chdir(pyTerm.currentPath)
 
-		else:
-			newPath = os.path.join(pyTerm.getPath(), sequence)
-			if os.path.isdir(newPath):
-				pyTerm.setPath(newPath)
+		else: # downward
+			currentPath = os.path.join(pyTerm.getPath(), sequence)
+			if os.path.isdir(currentPath):
+				pyTerm.setPath(currentPath)
+				os.chdir(pyTerm.currentPath)
 			else:
 				print 'Invalid Directory!'
