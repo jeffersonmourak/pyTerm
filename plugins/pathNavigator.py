@@ -16,20 +16,18 @@ class pathNavigator(object):
 			currentPath = pyTerm.getPath().split("/")[::-1][1::]
 			if currentPath[0] == '':
 				pyTerm.setPath('/')
-				os.chdir(pyTerm.currentPath)
+
 			else:
-				currentPath = "/".join(currentPath[::-1])
-				pyTerm.setPath(currentPath)
-				os.chdir(pyTerm.currentPath)
+				pyTerm.setPath("/".join(currentPath[::-1]))
 
 		elif sequence == "" or sequence == "~":
 			pyTerm.setPath("/home/"+pyTerm.getUser())
-			os.chdir(pyTerm.currentPath)
 
 		else: # downward
 			currentPath = os.path.join(pyTerm.getPath(), sequence)
 			if os.path.isdir(currentPath):
 				pyTerm.setPath(currentPath)
-				os.chdir(pyTerm.currentPath)
 			else:
 				print 'Invalid Directory!'
+
+		os.chdir(pyTerm.currentPath)
