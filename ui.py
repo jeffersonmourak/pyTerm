@@ -2,23 +2,14 @@
 import socket
 import os
 
+from decorate import bcolors
 from CommandsList import *
-
-class bcolors:
-	HEADER = '\033[95m'
-	OKBLUE = '\033[94m'
-	OKGREEN = '\033[92m'
-	WARNING = '\033[93m'
-	FAIL = '\033[91m'
-	ENDC = '\033[0m'
-	BOLD = '\033[1m'
-	UNDERLINE = '\033[4m'
 
 class PyTermUI(object):
 	"""docstring for PyTermUI"""
 	def __init__(self,config):
 		self.config = config
-		
+
 	def preText(self):
 		userName = self.config.getUser()
 		computerName = socket.gethostname()
