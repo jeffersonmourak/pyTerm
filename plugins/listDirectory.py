@@ -1,4 +1,6 @@
 import os
+from decorate import bcolors
+
 class listDirectory(object):
 
 	def __pytermconfig__(self):
@@ -11,5 +13,7 @@ class listDirectory(object):
 		dirs = os.listdir(currentPath)
 
 		for file in dirs:
-			print file
-		
+			if os.path.isdir(os.path.join(pyTerm.getPath(), file)):
+				print bcolors.BOLD + bcolors.OKGREEN + file + bcolors.ENDC
+			else:
+				print file
