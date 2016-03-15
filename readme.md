@@ -19,11 +19,13 @@ and you are all set. Now, just go to the Usage topic to see how to use this. :)
 
 This project is just beginning, so you can run the very basic terminal commands and those aliases.
 
-To use PyTerm, you need to run the following in your terminal.
+To start PyTerm, you need to run the following in your terminal.
 
 ```Shell
 $ python terminal.py
 ```
+
+To exit, you can use <kbd>ctrl</kbd>+<kbd>C</kbd> shortcut.
 
 #plugins
 
