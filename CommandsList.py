@@ -10,7 +10,7 @@ currentDir = os.path.dirname(os.path.abspath(__file__))
 def callPlugin(command,config):
 	sequence = command.split()[1::]
 	command = command.split()[0]
-	
+
 	for plugin in plugins:
 		if plugin["command"] == command:
 			command = plugin["callback"]
@@ -23,7 +23,7 @@ def importPlugins():
 	pluginData = []
 	pluginCommands = " "
 	for file in dirs:
-		if not "pyc" in file.split(".") and not "__init__" in file.split("."):	
+		if not "pyc" in file.split(".") and not "__init__" in file.split("."):
 			moduleName = os.path.splitext(file)[0]
 			module = importlib.import_module("plugins." + moduleName)
 			moduleClassPrototype = getattr(module,moduleName)
@@ -54,14 +54,15 @@ def load_commands():
 
 def cache_commands(commands):
 	commandsString = " ".join(commands)
-	cachedCommands = open(currentDir + "/config/commands", 'w')
-	cachedCommands.write(commandsString)
+	with open(os.path.join(currentDir, "/config/commands"), 'w') as cC:
+		cC.write(commandsString)
 
 def load():
 	if os.path.isfile("config/commands"):
-		cachedCommands = open(currentDir + "/config/commands", 'r').read()
+		with open(os.path.join(currentDir, "/config/commands"), 'r') as cC:
+			cachedCommands = cC.read()
 		return cachedCommands.split()
-	else: 
+	else:
 		commands = load_commands()
 		cache_commands(commands)
 		return commands
@@ -75,12 +76,12 @@ def find(query):
 
 def run(commandString,config):
 	commandLine = commandString.split()
-	
+
 	if commandString == "{{BREAKAPPLICATION}}":
 		return False
 
 	if not commandString == "{{BREAKAPPLICATION}}" and len(commandLine) > 0 and not commandLine[0] == "ls":
-		
+
 		try:
 
 			print ""
@@ -90,7 +91,7 @@ def run(commandString,config):
 		except OSError as e:
 			if not callPlugin(commandString,config):
 				print e,
-	
+
 	if commandLine[0] == "ls":
 		callPlugin(commandString,config)
 
