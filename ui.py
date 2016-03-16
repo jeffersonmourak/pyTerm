@@ -3,7 +3,7 @@ import socket
 import os
 
 from decorate import bcolors
-from CommandsList import *
+import CommandsList as commands
 
 class PyTermUI(object):
 	"""docstring for PyTermUI"""
@@ -15,6 +15,7 @@ class PyTermUI(object):
 		computerName = socket.gethostname()
 		currentDir = self.config.getPath()
 
+		return "\r(pyTerm)$"
 		return "\r(PyTerm)" + userName +"@" + computerName +":" + currentDir.replace("/home/" + userName, "~") + "$"
 
 	def check(self,commandList):
@@ -22,7 +23,6 @@ class PyTermUI(object):
 		for text in commandList:
 			if isFirst:
 				print self.preText(),
-
 			if commands.find(text):
 				print bcolors.BOLD + bcolors.OKGREEN + text + bcolors.ENDC,
 			else:

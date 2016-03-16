@@ -1,12 +1,11 @@
 import subprocess
 import sys,os
 from shell import *
-from CommandsList import *
+import CommandsList as commands
 import getpass
 
-
 class Configs(object):
-	
+
 	def __init__(self):
 		self.currentPath = os.getcwd()
 
@@ -27,7 +26,6 @@ def runCommand(commandString):
 
 	if commands.run(commandString,configs):
 		runCommand(shell.listener())
-
-os.system('clear')
+		os.system('clear')
 
 runCommand(shell.listener())

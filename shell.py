@@ -1,5 +1,4 @@
 from Getch import *
-from CommandsList import *
 from ui import *
 
 
