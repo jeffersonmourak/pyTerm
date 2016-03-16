@@ -19,7 +19,7 @@ def callPlugin(command,config):
 	return False
 
 def importPlugins():
-	dirs = os.listdir( currentDir + "/plugins")
+	dirs = os.listdir(os.path.join(currentDir, "plugins"))
 	pluginData = []
 	pluginCommands = " "
 	for file in dirs:
@@ -38,9 +38,9 @@ def importPlugins():
 
 def load_commands():
 	if _platform == "linux" or _platform == "linux2":
-		filename = currentDir + '/listCommands.sh'
+		filename = os.path.join(currentDir, 'listCommands.sh')
 	elif _platform == "darwin":
-		filename = currentDir + '/mac_commands.sh'
+		filename = os.path.join(currentDir, 'mac_commands.sh')
 	else:
 		print "Your system is not supported"
 		exit()
@@ -54,12 +54,12 @@ def load_commands():
 
 def cache_commands(commands):
 	commandsString = " ".join(commands)
-	with open(os.path.join(currentDir, "/config/commands"), 'w') as cC:
+	with open(os.path.join(currentDir, "config/commands"), 'w') as cC:
 		cC.write(commandsString)
 
 def load():
 	if os.path.isfile("config/commands"):
-		with open(os.path.join(currentDir, "/config/commands"), 'r') as cC:
+		with open(os.path.join(currentDir, "config/commands"), 'r') as cC:
 			cachedCommands = cC.read()
 		return cachedCommands.split()
 	else:
