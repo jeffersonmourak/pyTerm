@@ -2,7 +2,7 @@ import socket
 import os
 
 from decorate import bcolors
-from CommandsList import commands
+import CommandsList as commands
 
 class PyTermUI(object):
 	"""docstring for PyTermUI"""
