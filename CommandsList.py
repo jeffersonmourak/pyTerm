@@ -1,102 +1,87 @@
 import subprocess
 import os
 import importlib
-from time import sleep
 from sys import platform as _platform
-
 
 currentDir = os.path.dirname(os.path.abspath(__file__))
 
-def callPlugin(command,config):
-	sequence = command.split()[1::]
-	command = command.split()[0]
+class CommandInspector(object):
+    def __init__(self):
+        self.available = self.load_commands()
 
-	for plugin in plugins:
-		if plugin["command"] == command:
-			command = plugin["callback"]
-			command(pyTerm=config,sequence=sequence)
-			return True
-	return False
+    def callPlugin(self, command, config):
+        sequence = command.split()[1::]
+        command = command.split()[0]
 
-def importPlugins():
-	dirs = os.listdir(os.path.join(currentDir, "plugins"))
-	pluginData = []
-	pluginCommands = " "
-	for file in dirs:
-		if not "pyc" in file.split(".") and not "__init__" in file.split("."):
-			moduleName = os.path.splitext(file)[0]
-			module = importlib.import_module("plugins." + moduleName)
-			moduleClassPrototype = getattr(module,moduleName)
-			moduleLoadedClass = moduleClassPrototype()
-			initiator = getattr(moduleLoadedClass,"__pytermconfig__")
-			data = initiator()
-			pluginData.append(initiator())
-			pluginCommands += data["command"] + " "
+        for plugin in self.plugins:
+            if plugin["command"] == command:
+                command = plugin["callback"]
 
-	plugins = pluginData
-	return pluginCommands
+                command(pyTerm=config, sequence=sequence)
 
-def load_commands():
-	if _platform == "linux" or _platform == "linux2":
-		filename = os.path.join(currentDir, 'listCommands.sh')
-	elif _platform == "darwin":
-		filename = os.path.join(currentDir, 'mac_commands.sh')
-	else:
-		print "Your system is not supported"
-		exit()
+                return True
+        return False
 
-	command = subprocess.Popen(['bash',filename], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	commands, err = command.communicate()
-	commands = commands.replace("ls","")
-	commands += " PyTerm"
-	commands += importPlugins()
-	return commands.split()
+    def importPlugins(self):
+        dirs = os.listdir(os.path.join(currentDir, "plugins"))
+        pluginData = []
+        pluginCommands = " "
 
-def cache_commands(commands):
-	commandsString = " ".join(commands)
-	with open(os.path.join(currentDir, "config/commands"), 'w') as cC:
-		cC.write(commandsString)
+        for file in dirs:
+            if not "pyc" in file.split(".") and not "__init__" in file.split("."):
+                moduleName = os.path.splitext(file)[0]
+                module = importlib.import_module("plugins." + moduleName)
+                moduleClassPrototype = getattr(module, moduleName)
+                moduleLoadedClass = moduleClassPrototype()
 
-def load():
-	if os.path.isfile("config/commands"):
-		with open(os.path.join(currentDir, "config/commands"), 'r') as cC:
-			cachedCommands = cC.read()
-		return cachedCommands.split()
-	else:
-		commands = load_commands()
-		cache_commands(commands)
-		return commands
+                initiator = getattr(moduleLoadedClass, "__pytermconfig__")
+                data = initiator()
+                pluginData.append(initiator())
+                pluginCommands += data["command"] + " "
 
-def find(query):
-	for command in available:
-		if command == query:
-			return True
+        self.plugins = pluginData
+        return pluginCommands
 
-	return False
+    def load_commands(self):
+        if _platform == "linux" or _platform == "linux2":
+            filename = os.path.join(currentDir, 'listCommands.sh')
+        elif _platform == "darwin":
+            filename = os.path.join(currentDir, 'mac_commands.sh')
+        else:
+            print "Your system is not supported"
+            exit()
 
-def run(commandString,config):
-	commandLine = commandString.split()
+        command = subprocess.Popen(['bash', filename], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        commands, err = command.communicate()
+        commands = commands.replace("ls", "")
+        commands += " PyTerm"
+        commands += self.importPlugins()
+        return commands.split()
 
-	if commandString == "{{BREAKAPPLICATION}}":
-		return False
+    def find(self, query):
+        for command in self.available:
+            if command == query:
+                return True
+        return False
 
-	if not commandString == "{{BREAKAPPLICATION}}" and len(commandLine) > 0 and not commandLine[0] == "ls":
+    def run(self, commandString, config):
+        commandLine = commandString.split()
 
-		try:
+        if commandString == "{{BREAKAPPLICATION}}":
+            return False
+        if not commandString == "{{BREAKAPPLICATION}}" and len(commandLine) > 0 and not commandLine[0] == "ls":
+            try:
+                print ""
+                test = subprocess.Popen(commandLine, stdout=subprocess.PIPE)
+                output = test.communicate()[0]
+                print output
+            except OSError as e:
+                if not self.callPlugin(commandString, config):
+                    print e,
 
-			print ""
-			test = subprocess.Popen(commandLine, stdout=subprocess.PIPE)
-			output = test.communicate()[0]
-			print output
-		except OSError as e:
-			if not callPlugin(commandString,config):
-				print e,
+        if commandLine[0] == "ls":
+            self.callPlugin(commandString, config)
+        print ""
+        return True
 
-	if commandLine[0] == "ls":
-		callPlugin(commandString,config)
-
-	print ""
-
-	return True
-
-available = load()
+commands = CommandInspector()

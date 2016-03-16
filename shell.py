@@ -1,7 +1,5 @@
-from Getch import *
-from ui import *
-
-
+from Getch import getch
+from ui import PyTermUI
 
 class Shell(object):
 
@@ -39,6 +37,5 @@ class Shell(object):
 			self.pyTermUI.check(commands)
 
 			may_i_continue = False if pressedKey == 13 or pressedKey == 3 else True
-			
-	 		
+
 	 	return string_query
