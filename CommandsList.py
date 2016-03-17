@@ -32,6 +32,7 @@ def importPlugins():
             pluginData.append(initiator())
             pluginCommands += data["command"] + " "
 
+    global plugins
     plugins = pluginData
     return pluginCommands
 
@@ -50,21 +51,6 @@ def load_commands():
     commands += " PyTerm"
     commands += importPlugins()
     return commands.split()
-
-def cache_commands(commands):
-    commandsString = " ".join(commands)
-    with open(os.path.join(currentDir, "config/commands"), 'w') as cC:
-        cC.write(commandsString)
-
-def load():
-    if os.path.isfile("config/commands"):
-        with open(os.path.join(currentDir, "config/commands"), 'r') as cC:
-            cachedCommands = cC.read()
-        return cachedCommands.split()
-    else:
-        commands = load_commands()
-        cache_commands(commands)
-        return commands
 
 def find(query):
     for command in available:
@@ -98,4 +84,4 @@ def run(commandString,config):
 
     return True
 
-available = load()
+available = load_commands()
