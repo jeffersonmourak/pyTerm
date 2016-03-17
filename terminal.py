@@ -1,7 +1,7 @@
 import subprocess
 import sys,os
-from shell import *
-import CommandsList as commands
+from shell import Shell
+from CommandsList import commands
 import getpass
 
 class Configs(object):
