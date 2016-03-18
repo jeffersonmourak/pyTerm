@@ -13,21 +13,12 @@ class PyTermUI(object):
 		userName = self.config.getUser()
 		computerName = socket.gethostname()
 		currentDir = self.config.getPath()
-
-		# return "\r(pyTerm)$"
-		return "\r(PyTerm)" + userName +"@" + computerName +":" + currentDir.replace("/home/" + userName, "~") + "$"
+		home = os.environ['HOME']
+		return "\r(PyTerm)" + userName +"@" + computerName +":" + currentDir.replace(home, "~") + "$ "
 
 	def check(self,commandList):
-		isFirst = True
 		for text in commandList:
-			if isFirst:
-				print self.preText(),
 			if commands.find(text):
-				print bcolors.BOLD + bcolors.OKGREEN + text + bcolors.ENDC,
-			else:
-				if isFirst:
-					print bcolors.BOLD + bcolors.FAIL + text + bcolors.ENDC,
-				else:
-					print text,
+				return text
 
-			isFirst = False
+		return ""
